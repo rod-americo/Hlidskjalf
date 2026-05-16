@@ -104,10 +104,11 @@ Mensagem de commit:
 Antes de concluir:
 
 - executar `npm test` quando código Node mudar
+- executar `python3 scripts/build_tps_question_db.py` quando o extrator, banco público ou material local de origem mudar
 - executar `python3 scripts/check_project_gate.py` quando `PROJECT_GATE.md` mudar
 - executar `python3 scripts/project_doctor.py` quando README/docs/contratos/operação mudarem
 - executar `python3 scripts/project_doctor.py --audit-config` quando `config/doctor.json` mudar
-- executar `python3 -m py_compile scripts/check_project_gate.py scripts/project_doctor.py` quando scripts Python mudarem
+- executar `python3 -m py_compile scripts/check_project_gate.py scripts/project_doctor.py scripts/build_tps_question_db.py` quando scripts Python mudarem
 - revisar `git diff` e `git status`
 - confirmar que `runtime/` não está sendo versionado
 
@@ -150,7 +151,7 @@ Atualize junto com o código quando necessário:
 - dependência externa crítica: `SQLite publico de questoes e gabaritos`
 - dados sensíveis: `progresso local do usuario, comentarios autorais e configuracao host-local`
 - host principal: `execucao local no computador do usuario`
-- comando de validação mínima: `npm test && python3 scripts/check_project_gate.py && python3 scripts/project_doctor.py`
+- comando de validação mínima: `npm test && python3 scripts/build_tps_question_db.py && python3 scripts/check_project_gate.py && python3 scripts/project_doctor.py`
 - regra de restart: `mudancas em codigo Node exigem restart do processo local; docs isoladas nao exigem restart`
 - gate check local: `python3 scripts/check_project_gate.py`
 - doctor estrutural: `python3 scripts/project_doctor.py`

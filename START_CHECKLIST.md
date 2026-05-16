@@ -27,7 +27,7 @@ Use este checklist antes do primeiro push e antes de importar os bancos de quest
 - [x] `tests/` criado com smoke test inicial.
 - [x] `config/` criado com exemplos versionados.
 - [x] `runtime/` definido e ignorado no git.
-- [ ] `data/questions/` ainda precisa receber o banco público versionável.
+- [x] `data/questions/` recebeu o banco público versionável do TPS Comentado 2019.
 
 ## 3. Configuração E Runtime
 
@@ -68,8 +68,8 @@ Use este checklist antes do primeiro push e antes de importar os bancos de quest
 
 ## 7. Próxima Rodada
 
-- [ ] Importar para este repositório apenas o banco público de questões e gabaritos.
-- [ ] Manter banco privado de comentários fora do git.
+- [x] Importar para este repositório apenas o banco público de questões e gabaritos.
+- [x] Manter banco privado de comentários fora do git.
 - [ ] Implementar piloto de Língua Portuguesa com uma questão completa por página.
 - [ ] Criar schema e migrations do banco local de progresso.
 - [ ] Implementar correção por item e classificação `difícil / boa / fácil`.

@@ -8,7 +8,7 @@ Registrar as entradas, saídas, identificadores e invariantes que permitem ao `H
 
 | Nome | Origem | Formato | Obrigatório | Observações |
 | --- | --- | --- | --- | --- |
-| `public_question_db` | `data/questions/*.db` | SQLite | sim | Banco público versionável com grupos de questão, itens/alternativas e gabaritos normalizados. |
+| `public_question_db` | `data/questions/tps-comentado-2019-public.db` | SQLite | sim | Banco público versionável com 631 grupos e 2586 itens/alternativas. |
 | `settings` | `config/settings.example.json` ou `config/settings.local.json` | JSON | sim | Define paths de banco público e progresso local. |
 | `private_comment_db` | `runtime/books/*.db` ou outro path local | SQLite | não | Banco privado opcional; não pode ser requisito para corrigir questões. |
 
@@ -53,13 +53,21 @@ O banco público inicial deve expor pelo menos:
   - `is_annulled`
   - `confidence`
 
+Estado validado em 2026-05-16:
+
+- `question_groups`: 631 registros
+- `question_items`: 2586 registros
+- `question_items.answer_normalized IS NULL`: 0 registros
+- `question_groups.needs_review`: 0 registros marcados
+- grupos de Língua Portuguesa: 126 registros
+
 ## 5. Identificadores E Chaves
 
 | Conceito | Campo canônico | Observações |
 | --- | --- | --- |
 | Grupo de questão | `question_groups.id` | Identificador estável usado para tela, tentativa e agenda. |
 | Item ou alternativa | `question_items.id` | Identificador estável para resposta marcada e correção. |
-| Disciplina | `question_groups.chapter_number` e `chapter_groups.chapter_title` | O piloto começa por `chapter_number = 1`, Língua Portuguesa. |
+| Disciplina | `question_groups.chapter_number` e `question_groups.chapter_title` | O piloto começa por `chapter_number = 1`, Língua Portuguesa. |
 | Gabarito | `question_items.answer_normalized` | Valores esperados: `correct`, `wrong`, `annulled` ou alternativas convertidas para acerto/erro em múltipla escolha. |
 
 ## 6. Banco De Progresso Previsto

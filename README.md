@@ -32,10 +32,11 @@ Inspirado na mitologia nórdica, Hlidskjalf (nórdico antigo: `Hliðskjálf`, pr
 - entrypoints principais:
   - `npm start`
   - `npm test`
+  - `python3 scripts/build_tps_question_db.py`
   - `python3 scripts/check_project_gate.py`
   - `python3 scripts/project_doctor.py`
 - dependência externa crítica:
-  - bancos SQLite públicos de questões em `data/questions/*.db`, ainda a serem importados para este repositório
+  - banco SQLite público de questões em `data/questions/tps-comentado-2019-public.db`
 
 ## Baseline Arquitetural
 
@@ -52,7 +53,8 @@ Hlidskjalf/
 │   ├── settings.example.json
 │   └── logging.example.json
 ├── data/
-│   └── questions/              # bancos públicos versionáveis, quando importados
+│   └── questions/
+│       └── tps-comentado-2019-public.db
 ├── docs/
 │   ├── ARCHITECTURE.md
 │   ├── CONTRACTS.md
@@ -105,7 +107,21 @@ cp config/settings.example.json config/settings.local.json
 npm start
 ```
 
-No bootstrap atual, `npm start` apenas valida o entrypoint e emite log estruturado. A interface real de prática será implementada na próxima rodada.
+No estado atual, `npm start` apenas valida o entrypoint e emite log estruturado. A interface real de prática será implementada na próxima rodada.
+
+## Banco De Questões
+
+O primeiro banco público versionado é `data/questions/tps-comentado-2019-public.db`, gerado a partir de material local em `runtime/books/` por `scripts/build_tps_question_db.py`.
+
+Conteúdo atual:
+
+- 631 grupos de questões
+- 2586 itens ou alternativas
+- 126 grupos de Língua Portuguesa, que serão o piloto inicial
+- 0 itens sem gabarito normalizado
+- 0 grupos marcados para revisão automática pelo extrator
+
+O banco privado local `runtime/books/tps-comentado-2019-comments.db` contém comentários autorais e não deve ser versionado. A aplicação deve funcionar apenas com o banco público.
 
 ## Configuração
 
@@ -142,10 +158,11 @@ O banco público não deve conter comentários autorais. Quando existir banco pr
 Checklist mínimo:
 
 - `npm test`
+- `python3 scripts/build_tps_question_db.py`
 - `python3 scripts/check_project_gate.py`
 - `python3 scripts/project_doctor.py`
 - `python3 scripts/project_doctor.py --audit-config`
-- `python3 -m py_compile scripts/check_project_gate.py scripts/project_doctor.py`
+- `python3 -m py_compile scripts/check_project_gate.py scripts/project_doctor.py scripts/build_tps_question_db.py`
 
 ## Documentação Do Repositório
 
@@ -167,12 +184,13 @@ Checklist mínimo:
 ### Consolidado
 
 - [x] baseline Skidbladnir aplicada ao repositório remoto existente
+- [x] banco público TPS Comentado 2019 importado para `data/questions/`
+- [x] extrator reprodutível importado para `scripts/`
 - [x] fronteira do projeto documentada
 - [x] guardrails locais criados
 
 ### Em andamento
 
-- [ ] importar banco público de questões para `data/questions/`
 - [ ] criar banco local de progresso em `runtime/`
 - [ ] implementar piloto de Língua Portuguesa com uma questão completa por página
 

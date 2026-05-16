@@ -52,3 +52,29 @@ Versionar apenas bancos públicos em `data/questions/` e manter comentários aut
 
 - versionar banco único com questões e comentários
 - não persistir comentários privados, perdendo a possibilidade de uso local legítimo
+
+## 2026-05-16 - Importar TPS Comentado 2019 como primeiro banco público
+
+**Contexto**
+
+O extrator e os bancos foram produzidos inicialmente no repositório errado. O trabalho útil precisava ser migrado para `Hlidskjalf`, mantendo público e privado separados.
+
+**Decisão**
+
+Importar `scripts/build_tps_question_db.py` e versionar `data/questions/tps-comentado-2019-public.db`. Manter Markdown intermediário, textos extraídos e banco de comentários em `runtime/books/`.
+
+**Impacto**
+
+- o piloto pode começar por `chapter_number = 1`, Língua Portuguesa
+- a aplicação passa a ter um banco público real para leitura
+- a extração continua reproduzível localmente enquanto os insumos privados permanecerem em `runtime/books/`
+
+**Tradeoff**
+
+- o banco SQLite versionado aumenta o tamanho do repositório, mas elimina dependência de extração no fluxo normal de uso
+- o extrator ainda depende de Markdown local privado para rebuild completo, o que é aceitável enquanto o banco público for o contrato versionado
+
+**Alternativas rejeitadas**
+
+- importar apenas o script e exigir rebuild local para todos os usuários
+- versionar também o banco de comentários para simplificar a interface

@@ -66,6 +66,7 @@ Casos de uso previstos:
 Responsabilidades:
 
 - abrir banco público de questões em modo leitura
+- reconstruir o banco público com `scripts/build_tps_question_db.py` quando houver atualização controlada dos Markdown locais em `runtime/books/`
 - criar e migrar banco local de progresso em `runtime/`
 - carregar configuração
 - emitir logs estruturados

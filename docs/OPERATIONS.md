@@ -25,6 +25,7 @@ cp config/settings.example.json config/settings.local.json
 
 ```bash
 npm test
+python3 scripts/build_tps_question_db.py
 python3 scripts/check_project_gate.py
 python3 scripts/project_doctor.py
 python3 scripts/project_doctor.py --audit-config
@@ -69,7 +70,7 @@ Conferir:
 Versionável:
 
 - schema e código da aplicação
-- bancos públicos de questões e gabaritos em `data/questions/`
+- bancos públicos de questões e gabaritos em `data/questions/`, incluindo `data/questions/tps-comentado-2019-public.db`
 - fixtures mínimas sem conteúdo protegido, se forem criadas
 
 Não versionável:
@@ -78,6 +79,15 @@ Não versionável:
 - comentários autorais
 - PDFs, dumps, bancos privados e caches
 - `config/settings.local.json`
+
+Rebuild do banco público:
+
+```bash
+python3 scripts/build_tps_question_db.py
+sqlite3 data/questions/tps-comentado-2019-public.db "pragma integrity_check"
+```
+
+O comando também regenera `runtime/books/tps-comentado-2019-comments.db`, que é privado e ignorado pelo git.
 
 ## 7. Logs E Diagnóstico
 
