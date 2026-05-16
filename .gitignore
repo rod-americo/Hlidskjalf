@@ -1,0 +1,32 @@
+
+# Runtime state
+runtime/**
+!runtime/.gitignore
+
+# Local configuration
+.env
+.env.*
+!.env.example
+config/*.local.toml
+config/*.local.json
+
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+htmlcov/
+.coverage*
+
+# Node
+node_modules/
+coverage/
+
+# Build artifacts
+build/
+dist/
+
+# Editor / OS noise
+.DS_Store
+*.log

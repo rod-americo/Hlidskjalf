@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "formatters": {
+    "json": {
+      "type": "json",
+      "required_fields": [
+        "ts",
+        "lvl",
+        "svc",
+        "mod",
+        "evt",
+        "msg"
+      ]
+    }
+  },
+  "policy": {
+    "rule": "logs devem ser estruturados e parseaveis",
+    "example": {
+      "ts": "2026-01-01T00:00:00+00:00",
+      "lvl": "INFO",
+      "svc": "service-name",
+      "mod": "module-name",
+      "evt": "startup",
+      "msg": "servico inicializado"
+    }
+  }
+}

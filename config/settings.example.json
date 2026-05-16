@@ -1,0 +1,13 @@
+{
+  "app": {
+    "name": "Hlidskjalf",
+    "env": "dev",
+    "logLevel": "INFO"
+  },
+  "questions": {
+    "publicDbPath": "data/questions/tps-comentado-2019-public.db"
+  },
+  "progress": {
+    "dbPath": "runtime/question-practice/progress.db"
+  }
+}
