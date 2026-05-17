@@ -23,10 +23,15 @@ export function loadSettings() {
         logLevel: payload.app?.logLevel ?? "INFO"
       },
       questions: {
-        publicDbPath: payload.questions?.publicDbPath ?? "data/questions/tps-comentado-2019-public.db"
+        publicDbPath: payload.questions?.publicDbPath ?? "data/questions/tps-comentado-2019-public.db",
+        pilotChapterNumber: payload.questions?.pilotChapterNumber ?? 1
       },
       progress: {
         dbPath: payload.progress?.dbPath ?? "runtime/question-practice/progress.db"
+      },
+      server: {
+        host: payload.server?.host ?? "127.0.0.1",
+        port: payload.server?.port ?? 3317
       },
       configPath: path
     };
@@ -39,10 +44,15 @@ export function loadSettings() {
       logLevel: "INFO"
     },
     questions: {
-      publicDbPath: "data/questions/tps-comentado-2019-public.db"
+      publicDbPath: "data/questions/tps-comentado-2019-public.db",
+      pilotChapterNumber: 1
     },
     progress: {
       dbPath: "runtime/question-practice/progress.db"
+    },
+    server: {
+      host: "127.0.0.1",
+      port: 3317
     },
     configPath: null
   };

@@ -6,28 +6,28 @@
 
 Inspirado na mitologia nórdica, Hlidskjalf (nórdico antigo: `Hliðskjálf`, pronunciado `/ˈhliːðˌskjɑːlv/`) é o alto assento de Odin, um ponto de observação a partir do qual todos os mundos podem ser vistos. No projeto, o nome representa clareza, perspectiva estratégica e capacidade de sintetizar informação complexa.
 
-## Por Que Este Projeto Existe
+## Por que este projeto existe
 
 - questões de provas como CACD/TPS frequentemente dependem de textos longos e grupos de itens, o que não se encaixa bem em flashcards simples
 - o estudante precisa resolver ativamente cada item ou alternativa antes de ver a correção
 - a agenda de revisão deve ser baseada no desempenho e na dificuldade percebida, sem depender de serviço externo
 
-## O que este repositorio e
+## O que este repositório é
 
 - uma aplicação local Node.js para treino de questões
 - um lugar para versionar schema, aplicação e bancos públicos de questões e gabaritos
 - o dono do fluxo de estudo: selecionar questão vencida, registrar resposta, corrigir, classificar dificuldade e reagendar
 
-## O que este repositorio NAO e
+## O que este repositório não é
 
 - um repositório de OCR ou extração editorial de livros
 - um lugar para versionar comentários autorais, PDFs ou bancos privados derivados de material protegido
 - um LMS completo, rede social, marketplace de questões ou substituto integral do Anki
 - um sistema dependente de internet ou autenticação na primeira versão
 
-## Estado Atual
+## Estado atual
 
-- fase: `bootstrap estrutural`
+- fase: `piloto local de prática ativa`
 - runtime principal: `node20+`
 - entrypoints principais:
   - `npm start`
@@ -38,7 +38,7 @@ Inspirado na mitologia nórdica, Hlidskjalf (nórdico antigo: `Hliðskjálf`, pr
 - dependência externa crítica:
   - banco SQLite público de questões em `data/questions/tps-comentado-2019-public.db`
 
-## Baseline Arquitetural
+## Baseline arquitetural
 
 ```text
 Hlidskjalf/
@@ -79,15 +79,16 @@ Regras:
 - usar `runtime/` para progresso local, bancos privados, comentários autorais, logs e estado mutável
 - não acoplar a aplicação a comentários autorais; eles podem enriquecer uso local, mas não são requisito para o treino funcionar
 
-## Quick Start
+## Quick start
 
 ### 1. Preparar ambiente
 
 ```bash
 npm install
+sqlite3 -version
 ```
 
-### 2. Rodar validacao
+### 2. Rodar validação
 
 ```bash
 npm test
@@ -107,9 +108,9 @@ cp config/settings.example.json config/settings.local.json
 npm start
 ```
 
-No estado atual, `npm start` apenas valida o entrypoint e emite log estruturado. A interface real de prática será implementada na próxima rodada.
+O servidor local sobe em `http://127.0.0.1:3317` por padrão. A tela inicial mostra uma questão completa de Língua Portuguesa por vez, preservando texto-base, comando, itens ou alternativas e correção por item.
 
-## Banco De Questões
+## Banco de questões
 
 O primeiro banco público versionado é `data/questions/tps-comentado-2019-public.db`, gerado a partir de material local em `runtime/books/` por `scripts/build_tps_question_db.py`.
 
@@ -138,10 +139,12 @@ Tabela mínima:
 | --- | --- | --- | --- | --- |
 | `HLIDSKJALF_CONFIG_FILE` | `env` | não | host | `config/settings.local.json` |
 | `NODE_ENV` | `env` | não | host | `development` |
-| `publicQuestionDbPath` | arquivo | sim | config | `data/questions/tps-comentado-2019-public.db` |
-| `progressDbPath` | arquivo | sim | config | `runtime/question-practice/progress.db` |
+| `questions.publicDbPath` | arquivo | sim | config | `data/questions/tps-comentado-2019-public.db` |
+| `questions.pilotChapterNumber` | número | sim | config | `1` |
+| `progress.dbPath` | arquivo | sim | config | `runtime/question-practice/progress.db` |
+| `server.port` | número | sim | config | `3317` |
 
-## Contratos E Fronteiras
+## Contratos e fronteiras
 
 Entrada canônica inicial:
 
@@ -152,6 +155,12 @@ Saída canônica inicial:
 - banco SQLite local de progresso com tentativas, classificações de dificuldade e próxima data de revisão
 
 O banco público não deve conter comentários autorais. Quando existir banco privado de comentários em `runtime/`, ele deve usar os mesmos identificadores estáveis, mas continuar opcional e não versionado.
+
+## Prática local
+
+O piloto usa `chapter_number = 1`, Língua Portuguesa. A interface carrega a próxima questão nunca respondida ou vencida, exige resposta ativa antes da correção, mostra acertos e erros por item e grava a tentativa em `runtime/question-practice/progress.db`.
+
+O agendamento inicial é por grupo de questão. A classificação `difícil`, `boa` ou `fácil` define o intervalo de revisão junto com o resultado da correção, sem depender de comentários autorais ou banco privado.
 
 ## Validação
 
@@ -164,7 +173,7 @@ Checklist mínimo:
 - `python3 scripts/project_doctor.py --audit-config`
 - `python3 -m py_compile scripts/check_project_gate.py scripts/project_doctor.py scripts/build_tps_question_db.py`
 
-## Documentação Do Repositório
+## Documentação do repositório
 
 - `PROJECT_GATE.md`: justificativa de existência e fronteira do repositório
 - `docs/ARCHITECTURE.md`: arquitetura real e evolução prevista
@@ -173,13 +182,14 @@ Checklist mínimo:
 - `docs/DECISIONS.md`: decisões arquiteturais e tradeoffs
 - `START_CHECKLIST.md`: estado do bootstrap e pendências reais
 
-## Riscos E Limites Atuais
+## Riscos e limites atuais
 
 - risco principal: importar questões sem preservar textos-base e agrupamento correto
 - dependência mais frágil: qualidade do parser e do banco público de questões
-- maior dívida técnica conhecida: a interface de prática e a política de repetição espaçada ainda não foram implementadas
+- maior dívida técnica conhecida: a interface de prática ainda é local e mínima, e a política de repetição espaçada precisa ser validada no uso real
+- dependência operacional explícita: o binário `sqlite3` precisa estar disponível no `PATH`
 
-## Evolução Do Projeto
+## Evolução do projeto
 
 ### Consolidado
 
@@ -191,11 +201,11 @@ Checklist mínimo:
 
 ### Em andamento
 
-- [ ] criar banco local de progresso em `runtime/`
-- [ ] implementar piloto de Língua Portuguesa com uma questão completa por página
+- [x] criar banco local de progresso em `runtime/`
+- [x] implementar piloto de Língua Portuguesa com uma questão completa por página
 
 ### Planejado
 
-- [ ] adicionar correção por item e classificação pós-correção
-- [ ] implementar agenda de repetição espaçada
+- [x] adicionar correção por item e classificação pós-correção
+- [x] implementar agenda inicial de repetição espaçada
 - [ ] expandir para demais disciplinas depois de validar o fluxo de Língua Portuguesa

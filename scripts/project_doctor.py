@@ -128,7 +128,7 @@ def extract_readme_entrypoints(text: str) -> list[str]:
 
 
 def extract_agents_validation(text: str) -> str | None:
-    match = re.search(r"comando de validacao minima:\s*`([^`]+)`", text)
+    match = re.search(r"comando de valida[çc][aã]o m[íi]nima:\s*`([^`]+)`", text)
     if not match:
         return None
     return match.group(1).strip()
@@ -418,8 +418,8 @@ def main() -> int:
 
     required_sections = {
         ROOT / "README.md": [
-            "## O que este repositorio e",
-            "## O que este repositorio NAO e",
+            "## O que este repositório é",
+            "## O que este repositório não é",
             "### 4. Rodar",
         ],
         ROOT / "docs" / "ARCHITECTURE.md": [
@@ -427,12 +427,12 @@ def main() -> int:
             "## 5. Fluxo principal",
         ],
         ROOT / "docs" / "CONTRACTS.md": [
-            "## 2. Entradas canonicas",
-            "## 3. Saidas canonicas",
+            "## 2. Entradas canônicas",
+            "## 3. Saídas canônicas",
         ],
         ROOT / "docs" / "OPERATIONS.md": [
             "### Boot principal",
-            "## 5. Validacao minima",
+            "## 5. Validação mínima",
         ],
     }
     for path, headings in required_sections.items():
@@ -457,17 +457,17 @@ def main() -> int:
 
     agents_validation = extract_agents_validation(agents_text)
     ops_validation = normalize_block(
-        extract_first_code_block(extract_section(operations_text, "## 5. Validacao minima"))
+        extract_first_code_block(extract_section(operations_text, "## 5. Validação mínima"))
     )
     if agents_validation and ops_validation and normalize_block(agents_validation) != ops_validation:
         add_error(errors, "AGENTS.md e docs/OPERATIONS.md divergem na validacao minima")
 
     negative_scope_readme = " ".join(
-        extract_bullets(extract_section(readme_text, "## O que este repositorio NAO e"))
+        extract_bullets(extract_section(readme_text, "## O que este repositório não é"))
     )
     negative_scope_gate = " ".join(
         extract_bullets(
-            extract_section(gate_text, "## 4. O que este projeto NAO pode carregar?")
+            extract_section(gate_text, "## 4. O que este projeto não pode carregar?")
         )
     )
     comparison_reports: list[dict[str, object]] = []
@@ -491,7 +491,7 @@ def main() -> int:
             )
 
     positive_scope_readme = " ".join(
-        extract_bullets(extract_section(readme_text, "## O que este repositorio e"))
+        extract_bullets(extract_section(readme_text, "## O que este repositório é"))
     )
     positive_scope_gate = " ".join(
         extract_bullets(extract_section(gate_text, "## 1. Por que este projeto existe?"))
@@ -537,8 +537,8 @@ def main() -> int:
                 "README.md e docs/ARCHITECTURE.md usam vocabularios muito diferentes para o escopo",
             )
 
-    contracts_inputs = extract_section(contracts_text, "## 2. Entradas canonicas") or ""
-    contracts_outputs = extract_section(contracts_text, "## 3. Saidas canonicas") or ""
+    contracts_inputs = extract_section(contracts_text, "## 2. Entradas canônicas") or ""
+    contracts_outputs = extract_section(contracts_text, "## 3. Saídas canônicas") or ""
     if contracts_inputs.count("|") < 10:
         add_error(errors, "docs/CONTRACTS.md parece nao ter entradas canonicas suficientes")
     if contracts_outputs.count("|") < 8:

@@ -1,4 +1,4 @@
-# OPERATIONS
+# Operações
 
 ## 1. Objetivo
 
@@ -12,12 +12,13 @@ Este documento permite executar, diagnosticar, reiniciar e recuperar o `Hlidskja
 | `test` | validação automatizada | Node.js 20+ e Python 3 | Roda smoke Node e guardrails do Skidbladnir. |
 | `prod` | não definido | não definido | Não há deploy remoto na primeira versão. |
 
-## 3. Como Executar
+## 3. Como executar
 
 ### Boot local
 
 ```bash
 npm install
+sqlite3 -version
 cp config/settings.example.json config/settings.local.json
 ```
 
@@ -37,9 +38,9 @@ python3 scripts/project_doctor.py --audit-config
 npm start
 ```
 
-No estado atual, `npm start` apenas valida o bootstrap do entrypoint e emite log estruturado. A interface HTTP local será implementada depois da validação do banco de Língua Portuguesa.
+O servidor local sobe em `http://127.0.0.1:3317` por padrão e serve a interface de prática ativa. Mudanças em código Node exigem reinício do processo para recarregar servidor, casos de uso e conexões SQLite.
 
-## 4. Configuração Operacional
+## 4. Configuração operacional
 
 - arquivo local: `config/settings.local.json`
 - variáveis de ambiente críticas:
@@ -49,23 +50,26 @@ No estado atual, `npm start` apenas valida o bootstrap do entrypoint e emite log
 - path de runtime state: `runtime/`
 - path previsto de progresso: `runtime/question-practice/progress.db`
 - path previsto de logs: `runtime/logs/`
+- host padrão do servidor: `127.0.0.1`
+- porta padrão do servidor: `3317`
 
-## 5. Validacao minima
+## 5. Validação mínima
 
 Depois de subir:
 
 ```bash
-npm test
+npm test && python3 scripts/build_tps_question_db.py && python3 scripts/check_project_gate.py && python3 scripts/project_doctor.py
 ```
 
 Conferir:
 
 - processo principal executa sem erro
-- logs de bootstrap aparecem como JSON
+- logs de bootstrap e HTTP aparecem como JSON
 - configuração carrega `config/settings.example.json` quando não há arquivo local
 - paths previstos de banco estão documentados
+- `runtime/question-practice/progress.db` é criado localmente e continua ignorado pelo git
 
-## 6. Dados E Persistência
+## 6. Dados e persistência
 
 Versionável:
 
@@ -89,7 +93,7 @@ sqlite3 data/questions/tps-comentado-2019-public.db "pragma integrity_check"
 
 O comando também regenera `runtime/books/tps-comentado-2019-comments.db`, que é privado e ignorado pelo git.
 
-## 7. Logs E Diagnóstico
+## 7. Logs e diagnóstico
 
 - logger principal: `hlidskjalf/infrastructure/logger.mjs`
 - formato dos logs: JSON em linha única
@@ -98,12 +102,13 @@ O comando também regenera `runtime/books/tps-comentado-2019-comments.db`, que �
 
 Sinais de falha comuns:
 
+- binário `sqlite3` ausente no `PATH`
 - banco público ausente em `data/questions/`
 - schema de banco incompatível com `docs/CONTRACTS.md`
 - progresso local corrompido em `runtime/question-practice/progress.db`
 - configuração local apontando para path inexistente
 
-## 8. Restart Policy
+## 8. Política de restart
 
 Ao mudar:
 
@@ -115,7 +120,7 @@ Ao mudar:
 - `data/questions/*.db`: reiniciar ou recarregar a conexão do banco
 - `docs/` apenas: nenhum restart
 
-## 9. Backup E Limpeza
+## 9. Backup e limpeza
 
 Backup recomendado:
 
@@ -143,7 +148,7 @@ Checklist mínimo:
 5. confirmar último erro estruturado no stdout ou em `runtime/logs/`
 6. confirmar se houve mudança recente em schema público ou progress db
 
-## 11. Mudanças Que Exigem Update Deste Documento
+## 11. Mudanças que exigem update deste documento
 
 - novo entrypoint
 - novo path de banco público ou progresso

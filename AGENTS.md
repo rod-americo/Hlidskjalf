@@ -149,10 +149,10 @@ Atualize junto com o código quando necessário:
 
 - domínio crítico: `pratica ativa de questoes com repeticao espacada`
 - dependência externa crítica: `SQLite publico de questoes e gabaritos`
-- dados sensíveis: `progresso local do usuario, comentarios autorais e configuracao host-local`
-- host principal: `execucao local no computador do usuario`
+- dados sensíveis: `progresso local do usuário, comentários autorais e configuração host-local`
+- host principal: `execução local no computador do usuário`
 - comando de validação mínima: `npm test && python3 scripts/build_tps_question_db.py && python3 scripts/check_project_gate.py && python3 scripts/project_doctor.py`
-- regra de restart: `mudancas em codigo Node exigem restart do processo local; docs isoladas nao exigem restart`
+- regra de restart: `mudanças em código Node exigem restart do processo local; docs isoladas não exigem restart`
 - gate check local: `python3 scripts/check_project_gate.py`
 - doctor estrutural: `python3 scripts/project_doctor.py`
 - doctor estrito: `python3 scripts/project_doctor.py --strict`

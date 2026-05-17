@@ -1,4 +1,4 @@
-# ARCHITECTURE
+# Arquitetura
 
 ## 1. Objetivo
 
@@ -20,7 +20,7 @@ Não inclui:
 - sincronização entre dispositivos, autenticação, ranking, LMS ou marketplace
 - curadoria jurídica de direitos autorais
 
-## 3. Contexto Do Sistema
+## 3. Contexto do sistema
 
 Entradas externas:
 
@@ -35,10 +35,11 @@ Saídas externas:
 Dependências críticas:
 
 - Node.js 20+
+- binário `sqlite3` disponível no `PATH`
 - SQLite legível pela aplicação
 - qualidade estrutural do banco público importado
 
-## 4. Módulos Principais
+## 4. Módulos principais
 
 ### 4.1 Domain
 
@@ -70,13 +71,13 @@ Responsabilidades:
 - criar e migrar banco local de progresso em `runtime/`
 - carregar configuração
 - emitir logs estruturados
-- servir arquivos estáticos ou endpoints locais quando a interface HTTP nascer
+- servir arquivos estáticos e endpoints locais da interface HTTP
 
 ### 4.4 Interfaces
 
 Interfaces previstas:
 
-- servidor HTTP local para piloto web
+- servidor HTTP local para piloto web em `http://127.0.0.1:3317`
 - CLI mínima para smoke, inspeção e eventual reset controlado de progresso
 - exportação futura para Anki ou formato intermediário, se fizer sentido depois do piloto
 
@@ -92,7 +93,7 @@ Interfaces previstas:
 8. O usuário classifica a questão como difícil, boa ou fácil.
 9. A aplicação persiste tentativa e agenda a próxima revisão.
 
-## 6. Contratos E Invariantes
+## 6. Contratos e invariantes
 
 - entrada canônica: `question_groups` e `question_items` no banco público
 - saída canônica: `attempts` e `review_cards` no banco local de progresso
@@ -117,6 +118,7 @@ Interfaces previstas:
 - arquivo versionado de exemplo: `config/settings.example.json`
 - configuração host-local ignorada: `config/settings.local.json`
 - paths padrão devem funcionar sem configuração extra depois que o banco público existir
+- porta padrão do servidor local: `3317`
 
 ## 9. Observabilidade
 
@@ -125,14 +127,14 @@ Interfaces previstas:
 - métricas mínimas futuras: questão carregada, tentativa registrada, correção executada, erro de banco e latência de resposta
 - smoke test atual: `npm test`
 
-## 10. Riscos E Tradeoffs
+## 10. Riscos e tradeoffs
 
 - risco técnico principal: banco público incompleto ou mal agrupado gerar tela de questão incompleta
 - acoplamento consciente: o piloto pode começar acoplado ao schema SQLite atual para acelerar aprendizado do domínio
 - parte ainda experimental: algoritmo de repetição espaçada e UX de correção por item
 
-## 11. Decisões Abertas
+## 11. Decisões abertas
 
-- escolher algoritmo inicial de repetição espaçada entre intervalos simples e variação inspirada em SM-2
+- validar o algoritmo inicial de repetição espaçada, que usa intervalos simples ajustados por dificuldade e erro
 - definir se comentários privados serão exibidos localmente no futuro ou permanecerão fora da interface
 - definir formato de exportação para Anki depois do fluxo ativo estar validado

@@ -1,4 +1,4 @@
-# DECISIONS
+# Decisões
 
 Use este arquivo para registrar decisões arquiteturais de forma leve. O objetivo não é burocracia; é evitar que o repositório mude de forma silenciosa.
 
@@ -78,3 +78,29 @@ Importar `scripts/build_tps_question_db.py` e versionar `data/questions/tps-come
 
 - importar apenas o script e exigir rebuild local para todos os usuários
 - versionar também o banco de comentários para simplificar a interface
+
+## 2026-05-16 - Implementar o piloto local de Língua Portuguesa
+
+**Contexto**
+
+O banco público versionado já contém grupos, itens ou alternativas e gabaritos normalizados. A próxima necessidade é transformar esse contrato em prática ativa local, sem depender de comentários privados.
+
+**Decisão**
+
+Criar um servidor HTTP local em Node.js, ler `question_groups` e `question_items` do SQLite público, gravar tentativas e agenda em `runtime/question-practice/progress.db` e começar por `chapter_number = 1`.
+
+**Impacto**
+
+- `npm start` passa a manter um servidor local em `http://127.0.0.1:3317`
+- o progresso do usuário fica em banco SQLite local ignorado pelo git
+- a correção usa apenas `answer_normalized` e respeita itens anulados
+
+**Tradeoff**
+
+- usar o binário `sqlite3` evita dependência npm nativa nesta rodada, mas mantém uma dependência operacional explícita do host local
+- a repetição espaçada começa simples para permitir validação real antes de sofisticar o algoritmo
+
+**Alternativas rejeitadas**
+
+- adicionar um pacote SQLite nativo antes de haver necessidade clara
+- criar uma agenda por item antes de confirmar se o estudo por grupo é melhor para o usuário

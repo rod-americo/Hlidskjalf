@@ -5,9 +5,14 @@
     "logLevel": "INFO"
   },
   "questions": {
-    "publicDbPath": "data/questions/tps-comentado-2019-public.db"
+    "publicDbPath": "data/questions/tps-comentado-2019-public.db",
+    "pilotChapterNumber": 1
   },
   "progress": {
     "dbPath": "runtime/question-practice/progress.db"
+  },
+  "server": {
+    "host": "127.0.0.1",
+    "port": 3317
   }
 }

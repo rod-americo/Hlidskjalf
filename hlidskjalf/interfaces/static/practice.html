@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hlidskjalf</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Piloto de Língua Portuguesa</p>
+          <h1>Prática ativa</h1>
+        </div>
+        <button id="next-button" class="secondary-button" type="button">Próxima</button>
+      </header>
+
+      <section id="status" class="status" aria-live="polite">Carregando questão...</section>
+
+      <form id="practice-form" class="question" hidden>
+        <div class="question-meta" id="question-meta"></div>
+        <section id="support-text" class="support-text" hidden></section>
+        <section class="prompt" id="prompt"></section>
+        <fieldset id="items" class="items"></fieldset>
+        <div id="difficulty-panel" class="difficulty-panel" hidden>
+          <span>Classificação</span>
+          <label><input type="radio" name="difficulty" value="hard"> Difícil</label>
+          <label><input type="radio" name="difficulty" value="good" checked> Boa</label>
+          <label><input type="radio" name="difficulty" value="easy"> Fácil</label>
+        </div>
+        <div class="actions">
+          <button id="submit-button" class="primary-button" type="submit">Corrigir</button>
+        </div>
+      </form>
+
+      <section id="result" class="result" hidden></section>
+    </main>
+    <script src="/app.js" type="module"></script>
+  </body>
+</html>

@@ -1,15 +1,15 @@
-# Start Checklist
+# Checklist inicial
 
 Use este checklist antes do primeiro push e antes de importar os bancos de questões.
 
-## 0. Decisão De Existência
+## 0. Decisão de existência
 
 - [x] O projeto tem fronteira própria: prática ativa de questões com repetição espaçada.
 - [x] O projeto não deve nascer dentro de `Skidbladnir`, que é apenas o scaffolder.
 - [x] O limite de escopo está claro no `README.md` e no `PROJECT_GATE.md`.
 - [x] Conteúdo público e conteúdo autoral foram separados desde o bootstrap.
 
-## 1. Baseline Mínima
+## 1. Baseline mínima
 
 - [x] `README.md` criado e preenchido.
 - [x] `AGENTS.md` criado e ajustado para o domínio.
@@ -29,14 +29,14 @@ Use este checklist antes do primeiro push e antes de importar os bancos de quest
 - [x] `runtime/` definido e ignorado no git.
 - [x] `data/questions/` recebeu o banco público versionável do TPS Comentado 2019.
 
-## 3. Configuração E Runtime
+## 3. Configuração e runtime
 
 - [x] Segredos não entram no git.
 - [x] Existe `config/settings.example.json`.
 - [x] Runtime state, bancos privados e sessões estão fora do versionamento.
 - [x] Caminho de logs previsto em `docs/OPERATIONS.md`.
 - [x] Entrypoint principal documentado como `npm start`.
-- [ ] Interface HTTP local ainda não foi implementada.
+- [x] Interface HTTP local implementada para o piloto de prática.
 
 ## 4. Contratos
 
@@ -45,7 +45,7 @@ Use este checklist antes do primeiro push e antes de importar os bancos de quest
 - [x] Identificadores principais definidos.
 - [x] Inferências e assunções marcadas.
 - [x] Limites com bancos privados e comentários autorais documentados.
-- [ ] Schema local de progresso ainda precisa ser materializado.
+- [x] Schema local de progresso materializado em `runtime/question-practice/progress.db`.
 
 ## 5. Validação
 
@@ -57,7 +57,7 @@ Use este checklist antes do primeiro push e antes de importar os bancos de quest
 - [x] Comportamento de restart documentado.
 - [x] Critério de smoke test definido.
 
-## 6. Disciplina De Crescimento
+## 6. Disciplina de crescimento
 
 - [x] Regra de branch definida.
 - [x] Regra de commit definida.
@@ -66,10 +66,10 @@ Use este checklist antes do primeiro push e antes de importar os bancos de quest
 - [x] Política de update de docs definida.
 - [ ] `bash scripts/install_git_hooks.sh` deve ser executado depois de `git init`.
 
-## 7. Próxima Rodada
+## 7. Próxima rodada
 
 - [x] Importar para este repositório apenas o banco público de questões e gabaritos.
 - [x] Manter banco privado de comentários fora do git.
-- [ ] Implementar piloto de Língua Portuguesa com uma questão completa por página.
-- [ ] Criar schema e migrations do banco local de progresso.
-- [ ] Implementar correção por item e classificação `difícil / boa / fácil`.
+- [x] Implementar piloto de Língua Portuguesa com uma questão completa por página.
+- [x] Criar schema e migrations do banco local de progresso.
+- [x] Implementar correção por item e classificação `difícil / boa / fácil`.

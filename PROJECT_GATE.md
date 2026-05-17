@@ -1,36 +1,36 @@
-# PROJECT GATE
+# Project gate
 
 Este arquivo justifica por que o `Hlidskjalf` merece existir como repositório próprio e define a fronteira mínima para não virar um depósito genérico de estudo, OCR ou automações educacionais.
 
 ## 1. Por que este projeto existe?
 
 - problema real: estudar questões longas em formato ativo exige preservar grupos de questão, textos-base, itens, alternativas, gabaritos e histórico de revisão; usar apenas cartões simples perde contexto e não mede a execução real da questão.
-- usuario ou operador alvo: estudante que treina provas discursivas e objetivas, começando pelo CACD/TPS, e precisa de fluxo local auditável para resolver, corrigir e reagendar questões.
+- usuário ou operador alvo: estudante que treina provas discursivas e objetivas, começando pelo CACD/TPS, e precisa de fluxo local auditável para resolver, corrigir e reagendar questões.
 - resultado esperado: entregar um sistema local de prática de questões com uma questão completa por tela, correção imediata, classificação de dificuldade e agenda de repetição espaçada baseada no desempenho.
 
-## 2. Por que isto NÃO deveria ser um módulo?
+## 2. Por que isto não deveria ser um módulo?
 
-- repositorio candidato que poderia absorver isso: `Skidbladnir` poderia gerar a estrutura, mas não deve carregar o produto de estudo; outros repositórios operacionais não têm relação de domínio com treino de questões.
+- repositório candidato que poderia absorver isso: `Skidbladnir` poderia gerar a estrutura, mas não deve carregar o produto de estudo; outros repositórios operacionais não têm relação de domínio com treino de questões.
 - por que esse acoplamento seria inadequado: o ciclo de evolução envolve UX de estudo, dados públicos de provas, SQLite local, estado de progresso e eventualmente exportação para Anki, o que tem dependências e decisões próprias.
 - fronteira que justifica um repositório separado: `Hlidskjalf` é dono do modelo de prática ativa, do agendamento de revisão e da interface de estudo; fontes de questões e extratores são insumos, não o domínio central.
 
 ## 3. O que este projeto compartilha com o ecossistema?
 
-- configuracao: usa exemplos versionados em `config/*.example.json` e configuração host-local ignorada por git quando necessário.
+- configuração: usa exemplos versionados em `config/*.example.json` e configuração host-local ignorada por git quando necessário.
 - logging: usa eventos JSON em linha única para bootstrap, diagnósticos e futuras rotinas de importação.
 - runtime: usa Node.js 20+ para a aplicação local e SQLite como persistência dos bancos de questões e de progresso.
 - contratos: consome bancos públicos de questões em `data/questions/*.db` e mantém estado local de revisão em `runtime/`.
-- autenticacao ou transporte: a primeira versão não exige autenticação nem transporte externo; qualquer sincronização futura deve ser tratada como contrato novo.
+- autenticação ou transporte: a primeira versão não exige autenticação nem transporte externo; qualquer sincronização futura deve ser tratada como contrato novo.
 
 Se a resposta for "quase tudo", provavelmente isso ainda não deveria nascer como repositório.
 
-## 4. O que este projeto NÃO pode carregar?
+## 4. O que este projeto não pode carregar?
 
 - responsabilidades fora de escopo: OCR de livros, curadoria jurídica de direitos autorais, geração automática irrestrita de conteúdo, LMS completo, rede social de estudos ou marketplace de questões.
 - integrações que pertencem a outro sistema: importadores específicos de PDF podem nascer como scripts auxiliares, mas a aplicação principal não deve depender de um livro privado nem de comentários autorais para funcionar.
-- dados que nao devem morar aqui: comentários protegidos por direito autoral, PDFs de livros, bancos privados de anotações, segredos, sessões de usuário, dumps e progresso local de estudo.
+- dados que não devem morar aqui: comentários protegidos por direito autoral, PDFs de livros, bancos privados de anotações, segredos, sessões de usuário, dumps e progresso local de estudo.
 
-## 5. Qual É O Custo De Manutenção Esperado?
+## 5. Qual é o custo de manutenção esperado?
 
 - host ou ambiente principal: execução local no computador do usuário, com possibilidade futura de empacotamento ou deploy local simples.
 - dependencia externa mais fragil: qualidade estrutural do banco de questões importado, especialmente textos-base e agrupamento correto de itens.
