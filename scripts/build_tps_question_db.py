@@ -16,7 +16,7 @@ ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_SOURCE_DIR = ROOT / "runtime" / "books" / "tps-comentado-2019-md-reflow"
 DEFAULT_PUBLIC_DB = ROOT / "data" / "questions" / "tps-comentado-2019-public.db"
 DEFAULT_PRIVATE_DB = ROOT / "runtime" / "books" / "tps-comentado-2019-comments.db"
-EXTRACTOR_VERSION = "2026-05-16.1"
+EXTRACTOR_VERSION = "2026-05-17.1"
 
 CHAPTER_FILES = [
     "01-lingua-portuguesa.md",
@@ -93,6 +93,51 @@ def normalize_space(value: str) -> str:
     return re.sub(r"\s+", " ", value).strip()
 
 
+def find_embedded_line_number_sequence(value: str) -> list[re.Match[str]]:
+    candidates = [
+        match
+        for match in re.finditer(r"(?<![\wºª])([1-9][0-9]{0,2})(?![\wºª])", value)
+        if int(match.group(1)) <= 180
+    ]
+    best_sequence: list[re.Match[str]] = []
+    active_sequences: list[list[re.Match[str]]] = []
+
+    for candidate in candidates:
+        number = int(candidate.group(1))
+        next_active = []
+        if number == 1:
+            next_active.append([candidate])
+        for sequence in active_sequences:
+            previous = int(sequence[-1].group(1))
+            if previous < number and 1 <= number - previous <= 4:
+                extended = [*sequence, candidate]
+                next_active.append(extended)
+                if len(extended) > len(best_sequence):
+                    best_sequence = extended
+            else:
+                next_active.append(sequence)
+        active_sequences = next_active[-32:]
+
+    return best_sequence if len(best_sequence) >= 4 else []
+
+
+def strip_embedded_line_numbers(value: str) -> str:
+    cleaned = value
+    while True:
+        sequence = find_embedded_line_number_sequence(cleaned)
+        if not sequence:
+            return cleaned
+
+        remove_spans = {match.span() for match in sequence}
+        cleaned_parts = []
+        cursor = 0
+        for start, end in sorted(remove_spans):
+            cleaned_parts.append(cleaned[cursor:start])
+            cursor = end
+        cleaned_parts.append(cleaned[cursor:])
+        cleaned = normalize_space("".join(cleaned_parts))
+
+
 def stable_id(*parts: object) -> str:
     payload = "\n".join(str(part) for part in parts)
     return hashlib.sha256(payload.encode("utf-8")).hexdigest()[:24]
@@ -155,7 +200,7 @@ def clean_support_text(raw: str) -> str | None:
             continue
         lines.append(stripped)
 
-    text = normalize_space("\n".join(lines))
+    text = strip_embedded_line_numbers(normalize_space("\n".join(lines)))
     if len(text) < 30:
         return None
     if not re.search(

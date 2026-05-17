@@ -24,10 +24,6 @@ body {
 }
 
 .topbar {
-  display: flex;
-  align-items: end;
-  justify-content: space-between;
-  gap: 16px;
   margin-bottom: 18px;
 }
 
@@ -137,8 +133,14 @@ h1 {
   color: #52616f;
 }
 
-.actions {
+.actions,
+.page-actions {
   margin-top: 18px;
+}
+
+.page-actions {
+  display: flex;
+  justify-content: flex-end;
 }
 
 button {
@@ -194,12 +196,15 @@ button:disabled {
     padding-top: 14px;
   }
 
-  .topbar {
-    align-items: stretch;
-    flex-direction: column;
-  }
-
   .question {
     padding: 16px;
+  }
+
+  .page-actions {
+    justify-content: stretch;
+  }
+
+  .page-actions button {
+    width: 100%;
   }
 }
