@@ -182,6 +182,10 @@ Checklist mínimo:
 - `docs/DECISIONS.md`: decisões arquiteturais e tradeoffs
 - `START_CHECKLIST.md`: estado do bootstrap e pendências reais
 
+## Operação no `tyr`
+
+O host `tyr` é o expositor local atual. O fluxo é fazer `commit` e `push` neste checkout e atualizar o `tyr` com `git pull --ff-only`, reiniciando o serviço `launchd` `dev.hlidskjalf.practice`.
+
 ## Riscos e limites atuais
 
 - risco principal: importar questões sem preservar textos-base e agrupamento correto

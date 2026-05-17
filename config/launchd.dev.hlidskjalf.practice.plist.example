@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "https://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>dev.hlidskjalf.practice</string>
+
+  <key>ProgramArguments</key>
+  <array>
+    <string>/usr/local/bin/node</string>
+    <string>/Users/rodrigo/Hlidskjalf/hlidskjalf/main.mjs</string>
+  </array>
+
+  <key>WorkingDirectory</key>
+  <string>/Users/rodrigo/Hlidskjalf</string>
+
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>HLIDSKJALF_CONFIG_FILE</key>
+    <string>config/settings.local.json</string>
+    <key>NODE_ENV</key>
+    <string>production</string>
+    <key>PATH</key>
+    <string>/usr/local/bin:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+  </dict>
+
+  <key>RunAtLoad</key>
+  <true/>
+
+  <key>KeepAlive</key>
+  <true/>
+
+  <key>StandardOutPath</key>
+  <string>/Users/rodrigo/Hlidskjalf/runtime/logs/launchd.out.log</string>
+
+  <key>StandardErrorPath</key>
+  <string>/Users/rodrigo/Hlidskjalf/runtime/logs/launchd.err.log</string>
+</dict>
+</plist>

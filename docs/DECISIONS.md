@@ -104,3 +104,28 @@ Criar um servidor HTTP local em Node.js, ler `question_groups` e `question_items
 
 - adicionar um pacote SQLite nativo antes de haver necessidade clara
 - criar uma agenda por item antes de confirmar se o estudo por grupo é melhor para o usuário
+
+## 2026-05-17 - Usar o `tyr` como host expositor local
+
+**Contexto**
+
+A interface de prática precisa ficar disponível a partir de um host local estável. O desenvolvimento continua neste checkout, mas a execução persistente deve ocorrer no `tyr`.
+
+**Decisão**
+
+Configurar o `tyr` como host expositor com um serviço de usuário `launchd` chamado `dev.hlidskjalf.practice`. O fluxo de atualização é fazer `commit` e `push` no ambiente de desenvolvimento e executar `git pull --ff-only` no `tyr`, seguido de restart do serviço.
+
+**Impacto**
+
+- o runtime de progresso permanece local ao `tyr`, em `runtime/question-practice/progress.db`
+- `config/settings.local.json` no `tyr` fica fora do git e pode usar `server.host = "0.0.0.0"`
+- a documentação operacional passa a registrar o host expositor e o comando de atualização
+
+**Tradeoff**
+
+- `launchd` é específico de macOS, mas combina com o host real atual e evita introduzir PM2 ou systemd sem necessidade
+
+**Alternativas rejeitadas**
+
+- executar manualmente `npm start` em sessão SSH
+- transformar o piloto em deploy remoto antes de validar o fluxo local

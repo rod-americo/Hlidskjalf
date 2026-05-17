@@ -10,6 +10,7 @@ Este documento permite executar, diagnosticar, reiniciar e recuperar o `Hlidskja
 | --- | --- | --- | --- |
 | `local` | desenvolvimento e estudo real | Node.js 20+ | Ambiente principal no bootstrap. |
 | `test` | validação automatizada | Node.js 20+ e Python 3 | Roda smoke Node e guardrails do Skidbladnir. |
+| `tyr` | host local que expõe a interface | macOS, Node.js 20+ e `launchd` | Atualizado por `git pull --ff-only` depois de `commit` e `push` neste repositório. |
 | `prod` | não definido | não definido | Não há deploy remoto na primeira versão. |
 
 ## 3. Como executar
@@ -40,6 +41,16 @@ npm start
 
 O servidor local sobe em `http://127.0.0.1:3317` por padrão e serve a interface de prática ativa. Mudanças em código Node exigem reinício do processo para recarregar servidor, casos de uso e conexões SQLite.
 
+### Boot no `tyr`
+
+No host `tyr`, o checkout canônico fica em `/Users/rodrigo/Hlidskjalf`. O fluxo operacional é fazer `commit` e `push` neste ambiente de trabalho e atualizar o host expositor com:
+
+```bash
+ssh tyr 'cd ~/Hlidskjalf && git pull --ff-only && launchctl kickstart -k gui/$(id -u)/dev.hlidskjalf.practice'
+```
+
+O serviço de usuário é `dev.hlidskjalf.practice`, instalado em `~/Library/LaunchAgents/dev.hlidskjalf.practice.plist` a partir de `config/launchd.dev.hlidskjalf.practice.plist.example`. No `tyr`, `config/settings.local.json` deve usar `server.host = "0.0.0.0"` para aceitar conexões externas ao loopback e preservar `progress.dbPath` em `runtime/question-practice/progress.db`.
+
 ## 4. Configuração operacional
 
 - arquivo local: `config/settings.local.json`
@@ -52,6 +63,8 @@ O servidor local sobe em `http://127.0.0.1:3317` por padrão e serve a interface
 - path previsto de logs: `runtime/logs/`
 - host padrão do servidor: `127.0.0.1`
 - porta padrão do servidor: `3317`
+- host expositor atual: `tyr`
+- serviço launchd no `tyr`: `dev.hlidskjalf.practice`
 
 ## 5. Validação mínima
 
@@ -118,6 +131,7 @@ Ao mudar:
 - `hlidskjalf/interfaces/`: reiniciar processo Node local
 - `config/settings.local.json`: reiniciar para garantir recarga
 - `data/questions/*.db`: reiniciar ou recarregar a conexão do banco
+- `tyr`: depois de `git pull --ff-only`, usar `launchctl kickstart -k gui/$(id -u)/dev.hlidskjalf.practice`
 - `docs/` apenas: nenhum restart
 
 ## 9. Backup e limpeza
